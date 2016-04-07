@@ -8,7 +8,7 @@
                 @endforeach
             @endif
             <div class="panel-body">
-                <form action="{{ Request::url() . '/messages' }}" method="POST" class="form-horizontal">
+                <form action="{{ Request::url() . '/message' }}" method="POST" class="form-horizontal">
                     {!! csrf_field() !!}
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Message</label>

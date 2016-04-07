@@ -39,7 +39,7 @@
                     @endif
                     <form action="{{ url('topic') }}" method="GET">
 
-                        <button type="submit" id="delete-topic-{{ $topic->id }}" class="btn btn-default">
+                        <button type="submit" id="button_insert_topic" class="btn btn-default">
                             <i class="fa fa-plus"></i> Create new topic
                         </button>
                     </form>

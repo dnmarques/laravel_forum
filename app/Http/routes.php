@@ -23,6 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('topic', 'TopicsController@showTopicForm');
 	Route::post('topic', 'TopicsController@store');
 	Route::delete('topic/{topic}', 'TopicsController@destroy');
+	Route::post('topic/{topic}/message', 'MessagesController@store');
 });
 
 Route::get('testes', 'TestesController@index');

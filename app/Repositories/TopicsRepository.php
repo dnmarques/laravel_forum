@@ -29,4 +29,8 @@ class TopicsRepository {
 	public function destroy(Topic $topic) {
 		$topic->delete();
 	}
+
+	public function lastMessageId(Topic $topic) {
+		return Topic::select('max(id)')->from('messages')->where('topic_id', '=', $topic->id);
+	}
 }

@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Repositories\TopicsRepository;
 use App\Topic;
 use App\Http\Requests\AddTopicRequest;
-use Redirect;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redirect;
 
 class TopicsController extends Controller
 {
@@ -29,15 +30,30 @@ class TopicsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        return view('topics.index', ['topics' => $this->topics->allWithUser()]);
+        $topics = $this->topics->allWithUser();
+        /*$topics = Cache::tags(['topics'])->remember('topics.index', 2, function() {
+            return $this->topics->allWithUser();
+        });*/
+        return view('topics.index', ['topics' => $topics]);
     }
-
+    
+    /**
+     * Shows the messages of the topic
+     * @param  Topic  $topic [description]
+     * @return [type]        [description]
+     */
     public function showTopicMessages(Topic $topic) {
         $data['topic_title'] = $topic->title;
+        
+        /*$key = 'messages-' . $topic->id;
+        $data['messages'] = Cache::remember($key, 2, function() use ($topic) {
+            return $this->topics->getAllMessagesFromTopic($topic);
+        });*/
+        
         $data['messages'] = $this->topics->getAllMessagesFromTopic($topic);
         return view('topics.messages', $data);
     }
-
+    
     public function showTopicForm() {
         return view('topics.form');
     }

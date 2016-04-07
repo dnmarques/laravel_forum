@@ -21,7 +21,7 @@
                                     <td>{{ $message->content }}</td>
                                     <td>{{ $message->name }}</td>
                                     <td>{{ $message->created_at }}</td>
-                                    @can('destroy', $message)
+
                                         <td>
                                             <form action="{{ Request::url() . '/message/'. $message->id }}" method="POST">
                                                 {!! csrf_field() !!}
@@ -32,7 +32,7 @@
                                                 </button>
                                             </form>
                                         </td>
-                                    @endcan
+                                    
                                 </tr>
                                 @endforeach
                             </table>

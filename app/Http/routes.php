@@ -24,6 +24,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::post('topic', 'TopicsController@store');
 	Route::delete('topic/{topic}', 'TopicsController@destroy');
 	Route::post('topic/{topic}/message', 'MessagesController@store');
+	Route::delete('topic/{topic}/message/{message}', 'MessagesController@destroy');
 });
 
 Route::get('testes', 'TestesController@index');

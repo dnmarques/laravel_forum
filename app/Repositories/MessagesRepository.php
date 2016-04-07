@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\User;
 use App\Topic;
+use App\Message;
 
 class MessagesRepository {
 
@@ -14,5 +15,9 @@ class MessagesRepository {
 				'topic_id' => $topic->id,
 				'user_id' => $user->id
 			]);
+	}
+
+	public function destroy(Message $message) {
+		return $message->delete();
 	}
 }

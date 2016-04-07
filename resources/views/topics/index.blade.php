@@ -30,7 +30,7 @@
                                             </button>
                                         </form>
                                     </td>
-                                    @endcan
+                                @endcan
                             </tr>
                         @endforeach
                         </table>

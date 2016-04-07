@@ -21,6 +21,18 @@
                                     <td>{{ $message->content }}</td>
                                     <td>{{ $message->name }}</td>
                                     <td>{{ $message->created_at }}</td>
+                                    @can('destroy', $message)
+                                        <td>
+                                            <form action="{{ Request::url() . '/message/'. $message->id }}" method="POST">
+                                                {!! csrf_field() !!}
+                                                {!! method_field('DELETE') !!}
+
+                                                <button type="submit" id="delete-message-{{ $message->id }}" class="btn btn-danger">
+                                                    <i class="fa fa-btn fa-trash"></i>Delete
+                                                </button>
+                                            </form>
+                                        </td>
+                                    @endcan
                                 </tr>
                                 @endforeach
                             </table>

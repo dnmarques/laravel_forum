@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\User;
 use App\Topic;
+use App\Message;
 
 class TopicsRepository {
 
@@ -13,7 +14,7 @@ class TopicsRepository {
 	}
 
 	public function getAllMessagesFromTopic(Topic $topic) {
-		return Topic::select('messages.id', 'messages.content', 'messages.created_at', 'name')
+		return Topic::select('*')
 						->where('topics.id', '=', $topic->id)
 						->join('messages', 'messages.topic_id', '=', 'topics.id')
 						->join('users', 'users.id', '=', 'messages.user_id')
@@ -27,6 +28,7 @@ class TopicsRepository {
 	}
 
 	public function destroy(Topic $topic) {
+		Message::where('topic_id', '=', $topic->id)->delete();
 		$topic->delete();
 	}
 

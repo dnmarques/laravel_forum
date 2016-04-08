@@ -23,7 +23,7 @@ class MessagesRepository {
 	}
 
 	public function storeMessage(User $user, $topic_id, $content) {
-		$counter = Topic::from('messages')->where('topic_id', '=', $topic_id)->max('id');
+		$counter = $this->getCounter($topic_id);
 
 		if($counter == null)
 			$counter = 0;
@@ -46,5 +46,9 @@ class MessagesRepository {
 		// Cache::forget($key); usar so se houver operacao de aceder apenas a 1 mensagem
 		Cache::tags($tags)->flush();
 		return $message->delete();
+	}
+
+	private function getCounter($topic_id) {
+		return Message::where('topic_id', $topic_id)->max('id');
 	}
 }

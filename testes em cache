@@ -1,13 +1,33 @@
-|------------------------- MENSAGENS -------------------------
+|------------------------- MENSAGEM -------------------------
+| TAG: topic-1-messages		: sempre que manipulo informacao de uma mensagem, tenho de limpar da									cache a lista de mensagens desse topico
 | KEY: topic-1-message-1
-| DATA: id, user_id, topic_id, content, created_at, updated_at
-| .
-| .
-| .
-| KEY: topic-1-message-50
-| DATA: id, user_id, topic_id, content, created_at, updated_at
+| DATA: 
+	 m.id  m.user_id  m.topic_id  m.content  m.created_at  m.updated_at
+	[... ][...	    ][...	    ][...	   ][...	 	 ][...	       ]
 
 |----------- RELACAO USERS COM TOPICS --------------
 | KEY: topics-list
-| DATA: title, name, topics.id, topics.user_id
+| DATA: 
+		 t.title  t.id  t.user_id  u.name
+		[...	][... ][...		 ][...	 ]
+		[...	][... ][...		 ][...	 ]
+		[...	][... ][...		 ][...	 ]
 
+|----------- MENSAGENS DE UM TOPICO -----------
+| TAG: topic-1-messages
+| KEY: topic-1-messages
+| DATA: 
+	 m.id  m.user_id  m.topic_id  m.content  m.created_at  m.updated_at  u.name
+	[... ][...		][...		][...	   ][...		 ][...		   ][...   ]
+	[... ][...		][...		][...	   ][...		 ][...		   ][...   ]
+	[... ][...		][...		][...	   ][...		 ][...		   ][...   ]
+
+|----------- TITULOS DE UM TOPICO -----------
+| KEY: topic-1-title
+| DATA:
+|	 t.title
+|   [  ...  ]
+
+
+Modo de pensar nas tags:
+Existe algo, que se eu modificasse ou eliminasse, tivesse que limpar esta cache?

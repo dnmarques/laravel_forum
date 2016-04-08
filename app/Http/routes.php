@@ -19,7 +19,7 @@ Route::auth();
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('topics', 'TopicsController@index');
-	Route::get('topic/{topic}', 'TopicsController@showTopicMessages');
+	Route::get('topic/{topic_id}', 'TopicsController@showTopicMessages');
 	Route::get('topic', 'TopicsController@showTopicForm');
 	Route::post('topic', 'TopicsController@store');
 	Route::delete('topic/{topic}', 'TopicsController@destroy');

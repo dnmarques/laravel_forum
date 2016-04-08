@@ -23,13 +23,15 @@ class MessagesRepository {
 				'user_id' => $user->id
 			]);
 		
-		$key = 'topic-'. $message->topic_id . '-message-' . $message->id;
-		Cache::tags(['topic-' . $message->topic_id])->put($key, $message, 10);
+		$tags = ['topic-' . $message->topic_id . '-messages'];
+		Cache::tags($tags)->flush();
 	}
 
 	public function destroy(Message $message) {
-		$key = 'topic-'. $message->topic_id . '-message-' . $message->id;
-		Cache::forget($key);
+		// $key = 'topic-'. $message->topic_id . '-message-' . $message->id;
+		$tags = ['topic-' . $message->topic_id . '-messages'];
+		// Cache::forget($key); usar so se houver operacao de aceder apenas a 1 mensagem
+		Cache::tags($tags)->flush();
 		return $message->delete();
 	}
 }

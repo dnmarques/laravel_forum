@@ -38,9 +38,9 @@ class TopicsController extends Controller
      * @param  Topic  $topic [description]
      * @return [type]        [description]
      */
-    public function showTopicMessages(Topic $topic) {
-        $data['topic_title'] = $topic->title;
-        $data['messages'] = $this->topics->getAllMessagesFromTopic($topic);
+    public function showTopicMessages($topic_id) {
+        $data['topic_title'] = $this->topics->getTopicTitle($topic_id);
+        $data['messages'] = $this->topics->getAllMessagesFromTopic($topic_id);
         return view('topics.messages', $data);
     }
     

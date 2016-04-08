@@ -25,7 +25,7 @@ class MessagesController extends Controller {
     	//return Redirect::to('topic/' . $topic->id);
     }
 
-    public function destroy(Topic $topic, Message $message) {
+    public function destroy($topic_id, Message $message) {
     	$this->authorize('destroy', $message);
     	$this->messages->destroy($message);
         return view('home');

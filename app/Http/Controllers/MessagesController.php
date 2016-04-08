@@ -21,13 +21,15 @@ class MessagesController extends Controller {
     public function store(AddMessageRequest $request, Topic $topic) {
     	$this->messages->storeMessage($request->user(), $topic, $request->message);
     	$destination = 'topic/' . $topic->id;
-    	return Redirect::to('topic/' . $topic->id);
+        return view('home');
+    	//return Redirect::to('topic/' . $topic->id);
     }
 
     public function destroy(Topic $topic, Message $message) {
     	$this->authorize('destroy', $message);
     	$this->messages->destroy($message);
-    	return Redirect::to('topic/' . $topic->id);
+        return view('home');
+    	//return Redirect::to('topic/' . $topic->id);
     }
 
     public function viewMessage($topic_id, $message_id) {
@@ -38,6 +40,7 @@ class MessagesController extends Controller {
     // TODO fazer verificacao do request (conteudo nao pode ser vazio)
     public function update(Request $request, $topic_id, $message_id) {
         $this->messages->updateContent($message_id, $topic_id, $request->message);
-        return Redirect::to('topic/' . $topic_id);
+        return view('home');
+        //return Redirect::to('topic/' . $topic_id);
     }
 }

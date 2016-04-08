@@ -50,12 +50,14 @@ class TopicsController extends Controller
 
     public function store(AddTopicRequest $request) {
         $topic = $this->topics->create($request->user(), $request->title);
-        return Redirect::to('topics');
+        return view('home');
+        //return Redirect::to('topics');
     }
 
     public function destroy(Topic $topic) {
         $this->authorize('destroy', $topic);
         $this->topics->destroy($topic);
-        return Redirect::to('topics');
+        return view('home');
+        //return Redirect::to('topics');
     }
 }

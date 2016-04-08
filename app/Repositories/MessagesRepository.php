@@ -22,16 +22,16 @@ class MessagesRepository {
 		return $return[0];
 	}
 
-	public function storeMessage(User $user, Topic $topic, $content) {
-		$counter = Topic::from('messages')->where('topic_id', '=', $topic->id)->max('id');
+	public function storeMessage(User $user, $topic_id, $content) {
+		$counter = Topic::from('messages')->where('topic_id', '=', $topic_id)->max('id');
 
 		if($counter == null)
 			$counter = 0;
 		$counter++;
 
-		$message = $topic->messages()->create([
+		$message = $user->messages()->create([
 				'id' => $counter,
-				'topic_id' => $topic->id,
+				'topic_id' => $topic_id,
 				'content' => $content,
 				'user_id' => $user->id
 			]);

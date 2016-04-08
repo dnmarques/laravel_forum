@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('topic', 'TopicsController@showTopicForm');
 	Route::post('topic', 'TopicsController@store');
 	Route::delete('topic/{topic}', 'TopicsController@destroy');
-	Route::post('topic/{topic}/message', 'MessagesController@store');
+	Route::post('topic/{topic_id}/message', 'MessagesController@store');
 	Route::delete('topic/{topic}/message/{message}', 'MessagesController@destroy');
 	Route::get('message/{topic_id}/{message_id}', 'MessagesController@viewMessage');
 	Route::patch('message/{topic_id}/{message_id}', 'MessagesController@update');

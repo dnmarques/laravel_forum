@@ -18,9 +18,9 @@ class MessagesController extends Controller {
 		$this->messages = $messages;
 	}
 
-    public function store(AddMessageRequest $request, Topic $topic) {
-    	$this->messages->storeMessage($request->user(), $topic, $request->message);
-    	$destination = 'topic/' . $topic->id;
+    public function store(AddMessageRequest $request, $topic_id) {
+    	$this->messages->storeMessage($request->user(), $topic_id, $request->message);
+    	$destination = 'topic/' . $topic_id;
         return view('home');
     	//return Redirect::to('topic/' . $topic->id);
     }

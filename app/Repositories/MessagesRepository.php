@@ -9,8 +9,12 @@ use Illuminate\Support\Facades\Cache;
 
 class MessagesRepository {
 
-	public function updateContent(Message $message, Topic $topic, $content) {
-		return Message::where([['id', $message->id],['topic_id', $message->topic_id]])->update(['content' => $content]);
+	public function updateContent($message_id, $topic_id, $content) {
+		$tags = ['topic-'.$topic_id.'-messages'];
+		$return = Message::where([['id', $message_id],['topic_id', $topic_id]])->update(['content' => $content]);
+		Cache::tags('topic-'.$topic_id.'-messages')->flush();
+		return $return;
+
 	}
 
 	public function getMessageFromTopic($topic_id, $message_id) {

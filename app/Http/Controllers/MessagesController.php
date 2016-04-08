@@ -30,15 +30,14 @@ class MessagesController extends Controller {
     	return Redirect::to('topic/' . $topic->id);
     }
 
-    public function viewMessage(Topic $topic, Message $message) {
-        $data['title'] = $this->messages->getMessageFromTopic($topic->id, $message->id);
-        //dd($data['title']);
+    public function viewMessage($topic_id, $message_id) {
+        $data['title'] = $this->messages->getMessageFromTopic($topic_id, $message_id);
         return view('messages.editForm', ['message_title' => $data['title']]);
     }
 
     // TODO fazer verificacao do request (conteudo nao pode ser vazio)
-    public function update(Request $request, Topic $topic, Message $message) {
-        $this->messages->updateContent($message, $topic, $request->message);
-        return Redirect::to('topic/' . $topic->id);
+    public function update(Request $request, $topic_id, $message_id) {
+        $this->messages->updateContent($message_id, $topic_id, $request->message);
+        return Redirect::to('topic/' . $topic_id);
     }
 }

@@ -1,0 +1,13 @@
+|------------------------- MENSAGENS -------------------------
+| KEY: topic-1-message-1
+| DATA: id, user_id, topic_id, content, created_at, updated_at
+| .
+| .
+| .
+| KEY: topic-1-message-50
+| DATA: id, user_id, topic_id, content, created_at, updated_at
+
+|----------- RELACAO USERS COM TOPICS --------------
+| KEY: topics-list
+| DATA: title, name, topics.id, topics.user_id
+

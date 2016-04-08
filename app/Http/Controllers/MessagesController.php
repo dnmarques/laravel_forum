@@ -29,4 +29,16 @@ class MessagesController extends Controller {
     	$this->messages->destroy($message);
     	return Redirect::to('topic/' . $topic->id);
     }
+
+    public function viewMessage(Topic $topic, Message $message) {
+        $data['title'] = $this->messages->getMessageFromTopic($topic->id, $message->id);
+        //dd($data['title']);
+        return view('messages.editForm', ['message_title' => $data['title']]);
+    }
+
+    // TODO fazer verificacao do request (conteudo nao pode ser vazio)
+    public function update(Request $request, Topic $topic, Message $message) {
+        $this->messages->updateContent($message, $topic, $request->message);
+        return Redirect::to('topic/' . $topic->id);
+    }
 }

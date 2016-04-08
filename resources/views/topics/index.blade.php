@@ -19,8 +19,8 @@
                             <tr>
                                 <td><a href="{{ url('topic/'.$topic->id) }}">{{ $topic->title }}</a></td>
                                 <td>{{ $topic->name}}</td>
-                                <td>
                                 @can('destroy', $topic)
+                                    <td>
                                         <form action="{{ url('topic/'.$topic->id) }}" method="POST">
                                             {!! csrf_field() !!}
                                             {!! method_field('DELETE') !!}

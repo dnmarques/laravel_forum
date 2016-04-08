@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Cache;
 
 class MessagesRepository {
 
+	public function updateContent(Message $message, Topic $topic, $content) {
+		return Message::where([['id', $message->id],['topic_id', $message->topic_id]])->update(['content' => $content]);
+	}
+
+	public function getMessageFromTopic($topic_id, $message_id) {
+		$return = Message::where([['topic_id', '=', $topic_id],['id', '=', $message_id]])->pluck('content');
+		return $return[0];
+	}
+
 	public function storeMessage(User $user, Topic $topic, $content) {
 		$counter = Topic::from('messages')->where('topic_id', '=', $topic->id)->max('id');
 

@@ -33,6 +33,15 @@
                                             </form>
                                         </td>
                                         @endcan
+                                        <td>
+                                            <form action="{{ '/message/'. $message->topic_id . '/' . $message->id }}" method="GET>
+                                                {!! csrf_field() !!}
+
+                                                <button type="submit" id="update-message-{{ $message->id }}" class="btn btn-primary">
+                                                    <i class="glyphicon glyphicon-pencil"></i> Edit
+                                                </button>
+                                            </form>
+                                        </td>
                                 </tr>
                                 @endforeach
                             </table>

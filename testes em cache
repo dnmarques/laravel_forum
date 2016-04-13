@@ -1,12 +1,30 @@
+KEYS:
+topic-x-title
+topic-x-messages
+topic-x-message-y-content
+topic-x-message-y
+topics-list
+
+TAGS:
+topic-x
+topic-x-title
+topic-x-messages
+topic-x-message-y-content
+topic-x-message-y
+topics-list
+
+
+
 |------------------------- MENSAGEM -------------------------
-| TAG: topic-1-messages		: sempre que manipulo informacao de uma mensagem, tenho de limpar da									cache a lista de mensagens desse topico
-| KEY: topic-1-message-1
+| KEY: topic-x-message-y
+| TAG: [topic-x-message-y, topic-x-messages]
 | DATA: 
 	 m.id  m.user_id  m.topic_id  m.content  m.created_at  m.updated_at
 	[... ][...	    ][...	    ][...	   ][...	 	 ][...	       ]
 
 |----------- RELACAO USERS COM TOPICS --------------
 | KEY: topics-list
+| TAG: [topics-list]
 | DATA: 
 		 t.title  t.id  t.user_id  u.name
 		[...	][... ][...		 ][...	 ]
@@ -14,8 +32,8 @@
 		[...	][... ][...		 ][...	 ]
 
 |----------- MENSAGENS DE UM TOPICO -----------
-| TAG: topic-1-messages
-| KEY: topic-1-messages
+| KEY: topic-x-messages
+| TAG: [topic-x-messages]
 | DATA: 
 	 m.id  m.user_id  m.topic_id  m.content  m.created_at  m.updated_at  u.name
 	[... ][...		][...		][...	   ][...		 ][...		   ][...   ]
@@ -23,11 +41,18 @@
 	[... ][...		][...		][...	   ][...		 ][...		   ][...   ]
 
 |----------- TITULOS DE UM TOPICO -----------
-| KEY: topic-1-title
+| KEY: topic-x-title
+| TAG: [topic-x-title, topic-x]
 | DATA:
 |	 t.title
 |   [  ...  ]
 
+|----------- CONTEUDO DE UMA MENSAGEM -----------
+| KEY: topic-x-message-y-content
+| TAG: [topic-x-message-y-content, topic-x-message-y, topic-x-messages]
+| DATA:
+|	 m.content
+|   [  ...  ]
 
 Modo de pensar nas tags:
 Existe algo, que se eu modificasse ou eliminasse, tivesse que limpar esta cache?

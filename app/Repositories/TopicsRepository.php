@@ -19,7 +19,6 @@ class TopicsRepository {
 	}
 
 	public function allWithUser() {
-		
 		return Cache::remember('topics-list', 2, function() {
 			return Topic::select('title', 'name', 'topics.id', 'topics.user_id')->
 					join('users', 'users.id', '=', 'topics.user_id')->get();

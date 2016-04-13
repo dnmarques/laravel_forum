@@ -18,7 +18,13 @@ class MessagesRepository {
 	}
 
 	public function getMessageFromTopic($topic_id, $message_id) {
-		$return = Message::where([['topic_id', '=', $topic_id],['id', '=', $message_id]])->pluck('content');
+		$key = 'topic-' . $topic_id . '-message-' . $message_id . '-content';
+		$tags[0] = 'topic-'.$topic_id.'-message-'.$message_id.'-content';
+		$tags[1] = 'topic-'.$topic_id.'-message-'.$message_id;
+		$tags[2] = 'topic-'.$topic_id.'-messages';
+		$return = Cache::tags($tags)->remember($key, 2, function() use($topic_id, $message_id) {
+			return Message::where([['topic_id', '=', $topic_id],['id', '=', $message_id]])->pluck('content');
+		});
 		return $return[0];
 	}
 

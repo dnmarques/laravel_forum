@@ -27,6 +27,6 @@ class MessagePolicy
      * @return [type]           [description]
      */
     public function destroy(User $user, Message $message) {
-        return $user->id === $message->user_id;
+        return true; //return $user->id === $message->user_id;
     }
 }

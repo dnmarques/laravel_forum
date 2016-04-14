@@ -11,19 +11,19 @@ class TopicsRepository {
 
 	public function getTopicTitle($topic_id) {
 		$key 	 = 'topic-'.$topic_id.'-title';
-		$tags[0] = 'topic-'.$topic_id.'-title';
-		$tags[1] = 'topic-'.$topic_id;
-		/*return Cache::tags($tags)->remember($key, 2, function() use($topic_id) {
+		$tags[0] = 'topics';
+
+		return Cache::tags($tags)->remember($key, 2, function() use($topic_id) {
 			$array = Topic::where('id', '=', $topic_id)->pluck('title');
 			return $array[0];
-		});*/
-		\Debugbar::addMessage('A verificar cache...', 'TopicsRepository');
+		});
+		/*\Debugbar::addMessage('A verificar cache...', 'TopicsRepository');
 		return Cache::tags($tags)->remember($key, 2, function() use($key, $topic_id, $tags) {
 			$array = Topic::where('id', '=', $topic_id)->pluck('title');
 			\Debugbar::addMessage('MISS - Colocado na cache key: '. $key 
 				. ' tags: ' . implode(", ", $tags), 'TopicsRepository');
 			return $array[0];
-		});
+		});*/
 	}
 
 	public function allWithUser() {
@@ -42,16 +42,16 @@ class TopicsRepository {
 
 	public function getAllMessagesFromTopic($topic_id) {
 		$key 	 = 'topic-'.$topic_id.'-messages';
-		$tags[0] = 'topic-'.$topic_id.'-messages';
+		$tags = ['messages', 'topics'];
 
-		/*return Cache::tags($tags)->remember($key, 2, function() use ($topic_id) {
+		return Cache::tags($tags)->remember($key, 2, function() use ($topic_id) {
 			return Topic::select('messages.*', 'users.name')
 						->where('topics.id', '=', $topic_id)
 						->join('messages', 'messages.topic_id', '=', 'topics.id')
 						->join('users', 'users.id', '=', 'messages.user_id')
 						->get();
-		});*/
-		\Debugbar::addMessage('A verificar cache...', 'TopicsRepository');
+		});
+		/*\Debugbar::addMessage('A verificar cache...', 'TopicsRepository');
 		return Cache::tags($tags)->remember($key, 2, function() use ($topic_id, $key, $tags) {
 			$result = Topic::select('messages.*', 'users.name')
 						->where('topics.id', '=', $topic_id)
@@ -61,14 +61,14 @@ class TopicsRepository {
 			\Debugbar::addMessage('MISS - Colocado na cache key: '. $key 
 				. ' tags: ' . implode(", ", $tags), 'TopicsRepository');
 			return $result;
-		});
+		});*/
 	}
 
 	public function create(User $user, $title) {
 		$topic = $user->topics()->create([
 				'title' => $title,
 			]);
-		$tags[0] = 'topics-list';
+		$tags[0] = 'topics';
 		Cache::tags($tags)->flush();
 		\Debugbar::addMessage('Flush das tags: ' . implode(", ", $tags), 'TopicsRepository');
 		return $topic;
@@ -77,8 +77,7 @@ class TopicsRepository {
 	public function destroy(Topic $topic) {
 		Message::where('topic_id', '=', $topic->id)->delete();
 		$topic->delete();
-		$tags[0] = 'topics-list';
-		$tags[1] = 'topic-id-'.$topic->id;
+		$tags = ['messages', 'topics'];
 		Cache::tags($tags)->flush();
 		\Debugbar::addMessage('Flush das tags: ' . implode(", ", $tags), 'TopicsRepository');
 	}

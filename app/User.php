@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Observers\UserObserver;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -23,6 +24,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public static function boot() {
+        User::observe(new UserObserver);
+    }
 
     public function topics() {
         return $this->hasMany('App\Topic');

@@ -14,7 +14,7 @@ topics-list
 
 |----------- RELACAO USERS COM TOPICS --------------
 | KEY: topics-list
-| TAG: [topics-list]
+| TAG: [topics-list, user-1, ..., user-4]
 | DATA: 
 		 t.title  t.id  t.user_id  u.name
 		[...	][... ][...		 ][...	 ]
@@ -23,7 +23,7 @@ topics-list
 
 |----------- MENSAGENS DE UM TOPICO -----------
 | KEY: topic-x-messages
-| TAG: [topic-x-messages, topic-x]
+| TAG: [topic-x-messages, topic-x, username]
 | DATA: 
 	 m.id  m.user_id  m.topic_id  m.content  m.created_at  m.updated_at  u.name
 	[... ][...		][...		][...	   ][...		 ][...		   ][...   ]

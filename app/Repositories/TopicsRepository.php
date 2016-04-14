@@ -13,18 +13,30 @@ class TopicsRepository {
 		$key 	 = 'topic-'.$topic_id.'-title';
 		$tags[0] = 'topic-'.$topic_id.'-title';
 		$tags[1] = 'topic-'.$topic_id;
-		return Cache::tags($tags)->remember($key, 2, function() use($topic_id) {
+		/*return Cache::tags($tags)->remember($key, 2, function() use($topic_id) {
 			$array = Topic::where('id', '=', $topic_id)->pluck('title');
+			return $array[0];
+		});*/
+		\Debugbar::addMessage('A verificar cache...', 'TopicsRepository');
+		return Cache::tags($tags)->remember($key, 2, function() use($key, $topic_id, $tags) {
+			$array = Topic::where('id', '=', $topic_id)->pluck('title');
+			\Debugbar::addMessage('MISS - Colocado na cache key: '. $key 
+				. ' tags: ' . implode(", ", $tags), 'TopicsRepository');
 			return $array[0];
 		});
 	}
 
 	public function allWithUser() {
 		$key 	 = 'topics-list';
-		$tags[0] = 'topics-list';
-		return Cache::tags($tags)->remember($key, 2, function() {
-			return Topic::select('title', 'name', 'topics.id', 'topics.user_id')->
+		$tags = ['users', 'topics'];
+
+		\Debugbar::addMessage('A verificar cache...', 'TopicsRepository');
+		return Cache::tags($tags)->remember($key, 2, function() use($key, $tags) {
+			$result = Topic::select('title', 'name', 'topics.id', 'topics.user_id')->
 					join('users', 'users.id', '=', 'topics.user_id')->get();
+			\Debugbar::addMessage('MISS - Colocado na cache key: '. $key 
+				. ' tags: ' . implode(", ", $tags), 'TopicsRepository');
+			return $result;
 		});
 	}
 
@@ -32,12 +44,23 @@ class TopicsRepository {
 		$key 	 = 'topic-'.$topic_id.'-messages';
 		$tags[0] = 'topic-'.$topic_id.'-messages';
 
-		return Cache::tags($tags)->remember($key, 2, function() use ($topic_id) {
+		/*return Cache::tags($tags)->remember($key, 2, function() use ($topic_id) {
 			return Topic::select('messages.*', 'users.name')
 						->where('topics.id', '=', $topic_id)
 						->join('messages', 'messages.topic_id', '=', 'topics.id')
 						->join('users', 'users.id', '=', 'messages.user_id')
 						->get();
+		});*/
+		\Debugbar::addMessage('A verificar cache...', 'TopicsRepository');
+		return Cache::tags($tags)->remember($key, 2, function() use ($topic_id, $key, $tags) {
+			$result = Topic::select('messages.*', 'users.name')
+						->where('topics.id', '=', $topic_id)
+						->join('messages', 'messages.topic_id', '=', 'topics.id')
+						->join('users', 'users.id', '=', 'messages.user_id')
+						->get();
+			\Debugbar::addMessage('MISS - Colocado na cache key: '. $key 
+				. ' tags: ' . implode(", ", $tags), 'TopicsRepository');
+			return $result;
 		});
 	}
 
@@ -47,6 +70,7 @@ class TopicsRepository {
 			]);
 		$tags[0] = 'topics-list';
 		Cache::tags($tags)->flush();
+		\Debugbar::addMessage('Flush das tags: ' . implode(", ", $tags), 'TopicsRepository');
 		return $topic;
 	}
 
@@ -54,8 +78,9 @@ class TopicsRepository {
 		Message::where('topic_id', '=', $topic->id)->delete();
 		$topic->delete();
 		$tags[0] = 'topics-list';
-		$tags[1] = 'topic-'.$topic->id;
+		$tags[1] = 'topic-id-'.$topic->id;
 		Cache::tags($tags)->flush();
+		\Debugbar::addMessage('Flush das tags: ' . implode(", ", $tags), 'TopicsRepository');
 	}
 
 	public function lastMessageId(Topic $topic) {
